@@ -1,8 +1,0 @@
-htdocs/templates/default/compile
-htdocs/templates/default/cache
-data/db_c
-data/logs
-htdocs/downloads
-tmp
-data/db_gat_data_dump.txt
-
