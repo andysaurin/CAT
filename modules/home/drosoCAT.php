@@ -186,7 +186,8 @@ class drosoCAT extends NQ_Auth_No
 					else
 						$this->collections[$result->collection_id]->id = "{$result->factor_name} {$result->tissue_name} ({$result->source_id})";
 					//the path to the file=
-					$path = SYSTEM_DATA_ROOT . DS . $result->source . DS . $result->source_id;
+					$path = SYSTEM_DATA_ROOT . DS . "encode_bedfiles" . DS . "drosophila" . DS . $result->source_id;
+
 					//the BED file - only set if file is present (if not present, score will be automatically NA)
 					if ( is_file( $path . DS . $result->filename ) )
 						$this->collections[$result->collection_id]->filepath = $path . DS . $result->filename;

@@ -188,7 +188,8 @@ class humanCAT extends NQ_Auth_No
 						$this->collections[$result->collection_id]->id = "{$result->factor_name} {$result->tissue_name} ({$result->source_id})";
 
 					//the path to the file=
-					$path = SYSTEM_DATA_ROOT . DS . $result->source . "_" . GENOME . DS . $result->source_id;
+					$path = SYSTEM_DATA_ROOT . DS . "encode_bedfiles" . DS . "human" . DS . $result->source_id;
+
 
 					//the BED file - only set if file is present (if not present, score will be automatically NA)
 					if ( is_file( $path . DS . $result->filename ) )
@@ -196,9 +197,10 @@ class humanCAT extends NQ_Auth_No
 
 					if ( $data['omitHOT'] ) {
 						//the BED file with HOT regions removed - only set if file is present (if not present, score will be automatically NA if requesting HOT region removal)
-						if ( is_file( $path . DS . $result->filename . ".noHOT.bed" ) ) {
-							$this->collections[$result->collection_id]->filepath_noHOT = $path . DS . $result->filename . ".noHOT.bed";
-							$this->collections[$result->collection_id]->filename_noHOT = $result->filename . ".noHOT.bed";
+						$noHOT_bedfile = str_ireplace(".unified.bed", ".unified.noHOT.bed", $result->filename);
+						if ( is_file( $path . DS . $noHOT_bedfile ) ) {
+							$this->collections[$result->collection_id]->filepath_noHOT = $path . DS . $noHOT_bedfile;
+							$this->collections[$result->collection_id]->filename_noHOT = $noHOT_bedfile;
 						}
 					}
 				}
