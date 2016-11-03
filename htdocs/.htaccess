@@ -1,0 +1,18 @@
+#E_ALL ^ E_NOTICE
+php_value error_reporting 6135
+php_value display_errors 1
+
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^$  /index.php?module=home [L]
+
+
+#login control
+RewriteRule ^login\/?(.*)$ /index.php?module=home&class=login [L,QSA]
+RewriteRule ^logout\/?(.*)$ /index.php?module=home&class=logout [L,QSA]
+RewriteRule ^([a-zA-Z]+)\/?$ /index.php?module=$1 [L,QSA]
+RewriteRule ^([a-zA-Z]+)\/([a-z_A-Z]+)\/?$ /index.php?module=$1&class=$2 [L,QSA]
+RewriteRule ^([a-zA-Z]+)\/([a-z_A-Z]+)\/([a-z_A-Z]+)\/?$ /index.php?module=$1&class=$2&event=$3 [L,QSA]
+
