@@ -3,7 +3,7 @@
 
 **Requirements**
 
-  - A [LAMP server](https://en.wikipedia.org/wiki/LAMP_(software_bundle\))
+  - A [LAMP server](https://en.wikipedia.org/wiki/LAMP_(software_bundle))
   
   - [bedools](https://github.com/arq5x/bedtools2)
   
