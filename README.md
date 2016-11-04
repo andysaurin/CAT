@@ -1,3 +1,4 @@
+![ChIP Association Tester](http://www.biotools.fr/images/heatmap_small.png "CAT")
 # CAT - A ChIP Association Tester
 
 ## About
@@ -7,7 +8,7 @@ You can either check a series of your own ChIP data using **webCAT** or test col
 
 A working online version is available on Andy's [BioTools website](http://www.biotools.fr) : [http://www.biotools.fr/CAT](http://www.biotools.fr/CAT)
 
-Or you can clone this repository and host it (privately or publicly) on your own server/cluster.
+Or you can clone this repository and [host it (privately or publicly) on your own server/cluster](https://github.com/andysaurin/CAT/blob/master/INSTALL.md).
 
 
 * **webCAT** 
