@@ -68,7 +68,11 @@ git clone https://github.com/andysaurin/encode_bedfiles
   
   - ENCODE Mouse and Human CAT data
     
-    - This data is only available for non-profit research. Contact Andy Saurin for access to the data
+    - This Human and Mouse pre-computed data is only available for non-profit research organisation. 
+    
+      Contact Andy Saurin for access to the data 
+    
+      ![ContactEmail](http://www.biotools.fr/images/address.png "Contact Email")
     
 
 **Configure CAT**
