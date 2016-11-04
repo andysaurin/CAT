@@ -1,5 +1,5 @@
-![ChIP Association Tester](http://www.biotools.fr/images/heatmap_small.png "CAT")
-# CAT - A ChIP Association Tester
+
+#![ChIP Association Tester](http://www.biotools.fr/images/heatmap_medium.png "CAT") CAT - A ChIP Association Tester
 
 ## About
 
