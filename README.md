@@ -47,8 +47,8 @@ Or you can clone this repository and [host it (privately or publicly) on your ow
      - [http://data.modencode.org/?Organism=D.%20melanogaster](http://data.modencode.org/?Organism=D.%20melanogaster)
   
   - Ignore ChIP peaks of transcription factors localising to HOT regions is supported through a simple checkbox
-     - HOT region data source: Data S8 from the manuscript [Identification of Functional Elements and Regulatory Circuits by Drosophila modENCODE](http://www.modencode.org/publications/fly_2010pubs/index.shtm)
-     - HOT regions defined as those regions showing binding of 8 or more transcription factors 
+     - HOT region data source: [Data S8](http://www.modencode.org/publications/files/fly/DataS8.gff) from the manuscript [Identification of Functional Elements and Regulatory Circuits by Drosophila modENCODE](http://www.modencode.org/publications/fly_2010pubs/)
+     - HOT regions used by CAT are defined as those regions showing binding of 8 or more transcription factors 
     
   - Try out [drosoCAT](http://www.biotools.fr/CAT/drosoCAT) for yourself!
 
