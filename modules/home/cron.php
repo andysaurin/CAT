@@ -22,39 +22,39 @@ class cron extends NQ_Auth_No
 		$this->cron_dir = SYSTEM_DATA_ROOT . "/cron";
 
 		if ( CAT_TYPE != 'gat_cache' ) {
-	
+
 			$this->processing_array = file( "{$this->cron_dir}/".CAT_TYPE_LC."_processing", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 			if ( is_array($this->processing_array) && count($this->processing_array) >= CRON_MAX_CONCURRENT ) {
 				// already running maximum number of cron jobs
 				echo "Max cron job limit reached - exiting\n";
 				exit(0);
 			}
-	
+
 			$this->queue_array = file( "{$this->cron_dir}/".CAT_TYPE_LC."_queue", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 			if ( !is_array($this->queue_array) || count($this->queue_array) == 0 ) {
 				// no data in queue
 				echo "No data to process - exiting\n";
 				exit(0);
 			}
-		
+
 		}
-		
+
         $load = @file_get_contents('/proc/loadavg');
         $load = explode(' ', $load, 1);
         $load = $load[0];
-        
+
         $max_capacity = round( ($load / SYSTEM_CORES) * 100);
         if ( $max_capacity > 100 ) {
 			echo "Server capacity at {$max_capacity}% - aborting run\n";
 			exit();
 	    }
-	    
+
         if ( $load > LOAD_ALERT ) {
 	        $this->num_threads = 1;
         } else {
 	        $this->num_threads = GAT_RUN_THREADS;
         }
-		
+
 	}
 
 	public function __default()
@@ -65,7 +65,7 @@ class cron extends NQ_Auth_No
 			$this->gat_cache('gat_data_noHOT');
 			exit;
 		}
-		
+
 		$this->uniq_id = $this->queue_array[0];
 
 		if ( !$this->uniq_id ||  strlen($this->uniq_id) < 1 || preg_match('|![a-zA-Z0-9]+|', $this->uniq_id) )
@@ -164,24 +164,24 @@ class cron extends NQ_Auth_No
 	}
 
 	private function gat_cache($db='gat_data') {
-		
+
 		// sets all GAT scores into the query cache to speed up CAT submit times
 		$query = "SELECT `id` FROM `collections` ORDER BY `id`";
 		$results = $this->db->get_results($query);
 
 		$start = time();
-				
+
 		foreach( $results as $result ) {
-			
+
 			$query2 = "SELECT `collection_id_annotations`, `observed`, `expected`, `stddev`, `l2fold`,`pvalue`, `percent_overlap_size_track`, `percent_overlap_size_annotation` FROM `{$db}` FORCE INDEX (collection_id_segments) WHERE `collection_id_segments`=".$result->id." ORDER BY `collection_id_segments`";
 			$this->db->get_results($query2);
-			
+
 		}
 		$end = time();
-		echo "MySQL Cache for {$db} loaded in ".($end-$start)." seconds\n";	
-		
+		echo "MySQL Cache for {$db} loaded in ".($end-$start)." seconds\n";
+
 	}
-	
+
 	private function chip_bed_comparison() {
 
 		$num_ids = count( $this->results );
@@ -294,7 +294,7 @@ class cron extends NQ_Auth_No
 		$num_threads = $this->num_threads;
 		$workspace = $this->prefs['chrom_sizes_bed'];
 		$sensitivity = $this->prefs['increase_sensitivity'];
-		
+
 		$gat_log = SYSTEM_TMPDIR . "/{$this->uniq_id}/gat.log";
 		$gat_output = SYSTEM_TMPDIR . "/{$this->uniq_id}/gat.tsv";
 
@@ -330,7 +330,7 @@ class cron extends NQ_Auth_No
 			foreach ( $output_array as $data ) {
 				list($track, $annotation, $observed, $expected, $CI95low, $CI95high, $stddev, $fold, $l2fold, $pvalue, $qvalue, $track_nsegments, $track_size, $track_density, $annotation_nsegments, $annotation_size, $annotation_density, $overlap_nsegments, $overlap_size, $overlap_density, $percent_overlap_nsegments_track, $percent_overlap_size_track, $percent_overlap_nsegments_annotation, $percent_overlap_size_annotation ) = explode("\t", $data);
 
-				$annotation = addslashes($annotation); //for gene names
+				$annotation = addslashes( trim($annotation) ); //for gene names - trim in case there was whitespaces before/after gene name in the bed file 4th column
 
 				if ( is_numeric($l2fold) && is_numeric($track_nsegments) && is_numeric($annotation_nsegments) ) {
 
@@ -364,7 +364,7 @@ class cron extends NQ_Auth_No
 					$toWrite = implode("\n", $this->queue_array);
 					$toWrite .= "\n";
 					file_put_contents( $this->cron_dir . "/".CAT_TYPE_LC."_queue", $toWrite,  LOCK_EX);
-				
+
 				} else
 					file_put_contents( $this->cron_dir . "/".CAT_TYPE_LC."_queue", '',  LOCK_EX);
 			}
