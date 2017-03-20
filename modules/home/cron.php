@@ -255,15 +255,16 @@ class cron extends NQ_Auth_No
 
 				if ( is_array($scores) && count($scores) ) {
 					foreach ($scores as $gene_name => $score) {
-						echo "\n{$gene_name} = $score";
+						echo "\n{$gene_name} = Score: {$score} ";
 
 						$gene_key = array_search($gene_name, $this->prefs['genes']);
 
-						if ( isset($this->results[$gene_key][$file_id]) )
+						if ( is_numeric($gene_key) && isset($this->results[$gene_key][$file_id]) ) {
+
 							$this->results[$gene_key][$file_id] = $score;
-						else
-							echo "\nERROR - failed finding '{$gene_name}' in gene array, so no result could be set in this->results[{$gene_key}][{$file_id}]\n";
-					}
+						} else {
+							echo "\nERROR - failed finding '{$gene_name}' in gene array (returned gene_key == '{$gene_key}'), so no result could be set in this->results[{$gene_key}][{$file_id}]\n";
+						}
 				} else {
 
 					echo "\nERROR - no scores returned\n";
