@@ -914,7 +914,8 @@ $results = ' . var_export( $this->results, true ) . ';
 
 		file_put_contents($copied_file, $list);
 
-		$cmd = BEDTOOLS . " sort -i \"{$copied_file}\" > \"{$copied_file}.sorted.bed\" 2>&1 ";
+		//use awk to convert MacOS line feeds to univ line feeds
+		$cmd = "awk '{ gsub(\"\\r\", \"\\n\"); print $0;}' \"{$copied_file}\" | " . BEDTOOLS . " sort -i - > \"{$copied_file}.sorted.bed\" 2>&1 ";
 		exec( "{$cmd}", $output, $retvar );
 
 		if ( $retvar > 0 ) {
